@@ -5,18 +5,14 @@
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Scanner;
 
 /**
- * @author physicsboy
+ * @author tianhe wang
  *
  */
 public class GitHash2cHeader {
@@ -25,8 +21,12 @@ public class GitHash2cHeader {
 	 */
 	public static void main(String[] args){
 		System.out.printf("GitHash convert to C header\n");
+		if(args.length < 2) {
+			System.out.printf("Please specify input and output file name");
+			return;
+		}
 		String InputfileName = args[0]+"HEAD";
-		String OutputfileName = "gitinfo.h";
+		String OutputfileName = args[1];
 		BufferedReader br;
 		BufferedWriter bw;
 		String filecontent;
@@ -62,6 +62,7 @@ public class GitHash2cHeader {
 
 			br.close();
 			bw.close();
+			System.out.printf("Successfully ended\n");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
@@ -75,6 +76,5 @@ public class GitHash2cHeader {
                     "Error reading file '" 
                     + InputfileName + "'");
 		}
-		System.out.printf("Successfully ended\n");
 	}
 }
