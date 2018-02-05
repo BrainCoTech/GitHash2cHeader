@@ -10,7 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
+import java.util.Date;
 /**
  * @author tianhe wang
  *
@@ -31,9 +31,12 @@ public class GitHash2cHeader {
 		BufferedWriter bw;
 		String filecontent;
 		try {
-			br = new BufferedReader(new FileReader(new File(InputfileName)));
 			bw = new BufferedWriter(new FileWriter(new File(OutputfileName)));
+			//write #ifdef
 			bw.write("#ifndef __GITINFO_H\n#define __GITINFO_H\n");
+			
+			//read git head message
+			br = new BufferedReader(new FileReader(new File(InputfileName)));
 			if((filecontent = br.readLine()) != null) {
                 System.out.println(filecontent);
             }
@@ -57,6 +60,18 @@ public class GitHash2cHeader {
             }
 			//get commit hash
 			bw.write("#define CURRENT_COMMIT_HASH \""+filecontent+"\"\n");
+			
+			//get current runtime as UTC.
+			Date s = new Date();
+			long currentmsec = s.getTime();
+			String utcsec = Integer.toUnsignedString((int)(currentmsec/1000));
+			String utcmsec = Long.toUnsignedString(currentmsec);
+			
+			//write current runtime string.
+			bw.write("#define BUILD_STEP_UTC_SEC "+utcsec+"U\n");
+			bw.write("#define BUILD_STEP_UTC_MSEC "+utcmsec+"UL\n");
+			
+			//write #endif
 			bw.write("#endif\n");
 			bw.flush();
 
