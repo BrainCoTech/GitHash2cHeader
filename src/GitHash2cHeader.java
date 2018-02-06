@@ -68,8 +68,8 @@ public class GitHash2cHeader {
 			String utcmsec = Long.toUnsignedString(currentmsec);
 			
 			//write current runtime string.
-			bw.write("#define BUILD_STEP_UTC_SEC "+utcsec+"U\n");
-			bw.write("#define BUILD_STEP_UTC_MSEC "+utcmsec+"UL\n");
+			bw.write("#define BUILD_STEP_UTC_SEC "+utcsec+"UL\n");
+			bw.write("#define BUILD_STEP_UTC_MSEC "+utcmsec+"ULL\n");
 			
 			//write #endif
 			bw.write("#endif\n");
